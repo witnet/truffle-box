@@ -15,36 +15,46 @@ const prototype = loadPrototype("witnet")
  */
 
 console.log(`
-Compiling your Witnet data requests...
-======================================`)
+Compiling your Witnet requests...
+=================================`)
 
-const contracts = fs.readdirSync(requestsDir)
-  .filter(onlyJS)
+const fileNames = fs.readdirSync(requestsDir)
+  .filter(fileName => fileName.match(/.*\.js/))
 
-const result = contracts
-  .map((fileName) => `${requestsDir}${fileName}`)
-  .map((path) => { console.log(`> Compiling ${path}`); return path })
-  .map(readFile)
-  .map(compile)
-  .map(execute)
-  .map(pack)
-  .map(intoProtoBuf)
-  .map((buf) => buf.toString("hex"))
-  .map((hex, i) => intoSol(hex, contracts[i]))
-  .map((sol, i) => writeSol(sol, contracts[i]))
+const steps = [
+  fileName => `${requestsDir}${fileName}`,
+  path => { console.log(`> Compiling ${path}`); return path },
+  readFile,
+  compile,
+  execute,
+  pack,
+  intoProtoBuf,
+  buff => buff.toString("hex"),
+  (hex, i) => intoSol(hex, fileNames[i]),
+  (sol, i) => writeSol(sol, fileNames[i]),
+]
 
-if (result) {
-  console.log(`
-> Compiled successfully
-`)
-}
+Promise.all(steps.reduce(
+  (prev, step) => prev.map((p, i) => p.then(v => step(v, i))),
+  fileNames.map(fileName => Promise.resolve(fileName))))
+  .then(succeed)
+  .catch(fail)
 
 /*
  * THESE ARE THE DIFFERENT STEPS THAT CAN BE USED IN THE COMPILER SCRIPT.
  */
 
-function onlyJS (fileName) {
-  return fileName.match(/.*\.js/)
+function succeed (_) {
+  console.log(`
+> All requests compiled successfully
+`)
+}
+
+function fail (error) {
+  console.error(`
+! WITNET REQUESTS COMPILATION ERRORS:
+  - ${error.message}`)
+  process.exitCode = 1
 }
 
 function readFile (path) {
@@ -53,16 +63,6 @@ function readFile (path) {
 
 function loadPrototype (fileName) {
   return protobuf(readFile(`${schemaDir}${fileName}.proto`))
-}
-
-function tap (input) {
-  console.log(input)
-  return input
-}
-
-function jsonTap (input) {
-  console.log(JSON.stringify(input))
-  return input
 }
 
 function compile (code) {
@@ -83,7 +83,13 @@ function execute (code) {
     exports: {},
     require: (mod) => require(`${__dirname}/${mod}`),
   })
-  return vm.runInContext(code, context, __dirname).deploy()
+
+  try {
+    return vm.runInContext(code, context, __dirname).compile()
+  } catch (e) {
+    throw Error(`${e} (most likely your request is missing the \`export\` statement at the end or the exported \
+object is not an instance of the \`Request\` class).`)
+  }
 }
 
 function pack (dro) {
