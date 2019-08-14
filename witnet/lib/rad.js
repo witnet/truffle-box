@@ -193,7 +193,7 @@ class Request {
     this.data.notBefore = timestamp
     return this
   }
-  deploy (witnesses, backup, commitFee, revealFee, tallyFee) {
+  compile (witnesses, backup, commitFee, revealFee, tallyFee) {
     return {
       data_request: this.data,
       witnesses,
@@ -207,7 +207,6 @@ class Request {
 
 class Script {
   constructor (firstType) {
-    //console.log("New script:")
     this.script = []
     this.lastType = firstType
 
@@ -253,7 +252,6 @@ class Script {
         console.error(`Method ${typeFormat(lastType)}::${operator} is not implemented`)
       }
 
-      //console.log(`  ${typeFormat(lastType)}::${operator}(${args.map((arg) => `${arg}`).join(", ")}) -> ${typeFormat(this.lastType)}`)
       return this.proxy
     }
   }
