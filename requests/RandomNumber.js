@@ -1,4 +1,4 @@
-import { Request, Source, Tally } from "rad.js"
+import { Request, Source, Tally } from "witnet-requests"
 
 const source = new Source("http://qrng.anu.edu.au/API/jsonI.php?length=1&type=uint8")
   .asString()

@@ -1,4 +1,5 @@
-import { FILTERS, REDUCERS, TYPES, Request, Script, Source } from "rad.js"
+import { Request, Script, Source, Types } from "witnet-requests"
+const { FILTERS, REDUCERS, TYPES } = Types
 
 const request = new Request()
   .addSource(

@@ -1,5 +1,6 @@
 const fs = require("fs")
 const vm = require("vm")
+
 const babel = require("@babel/core")
 const CBOR = require("cbor")
 const protobuf = require("protocol-buffers")
@@ -19,7 +20,7 @@ Compiling your Witnet requests...
 =================================`)
 
 const fileNames = fs.readdirSync(requestsDir)
-  .filter(fileName => fileName.match(/.*\.js/))
+  .filter(fileName => fileName.match(/.*\.js$/))
 
 const steps = [
   fileName => `${requestsDir}${fileName}`,
@@ -44,6 +45,11 @@ Promise.all(steps.reduce(
  * THESE ARE THE DIFFERENT STEPS THAT CAN BE USED IN THE COMPILER SCRIPT.
  */
 
+function tap (x) {
+  console.log(x)
+  return x
+}
+
 function succeed (_) {
   console.log(`
 > All requests compiled successfully
@@ -55,6 +61,7 @@ function fail (error) {
 ! WITNET REQUESTS COMPILATION ERRORS:
   - ${error.message}`)
   process.exitCode = 1
+  throw error
 }
 
 function readFile (path) {
@@ -81,14 +88,18 @@ function execute (code) {
   const context = vm.createContext({
     module: {},
     exports: {},
-    require: (mod) => require(`${__dirname}/${mod}`),
+    require,
   })
 
   try {
     return vm.runInContext(code, context, __dirname).compile()
   } catch (e) {
-    throw Error(`${e} (most likely your request is missing the \`export\` statement at the end or the exported \
+    let error = e
+    if (e.message.includes("Cannot find module")) {
+      error = Error(`${e} (most likely your request is missing the \`export\` statement at the end or the exported \
 object is not an instance of the \`Request\` class).`)
+    }
+    throw error
   }
 }
 
