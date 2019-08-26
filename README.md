@@ -112,10 +112,11 @@ back to the WBI along a cryptographic proof of their integrity.
 [Witnet]: https://witnet.io
 [requests-docs]: https://witnet.github.io/documentation/try/my-first-data-request/
 [contracts-docs]: https://witnet.github.io/documentation/try/use-from-ethereum/
-[BitcoinPrice.js]: /witnet/truffle-box/blob/master/requests/BitcoinPrice.js
-[RandomNumber.js]: /witnet/truffle-box/blob/master/requests/RandomNumber.js
-[Weather.js]: /witnet/truffle-box/blob/master/requests/Weather.js
-[PriceIndex.sol]: /witnet/truffle-box/blob/master/contracts/examples/PriceIndex.sol
-[QuantumDice.sol]: /witnet/truffle-box/blob/master/contracts/examples/QuantumDice.sol
-[WeatherContest.sol]: /witnet/truffle-box/blob/master/contracts/examples/WeatherContest.sol
+[BitcoinPrice.js]: /requests/BitcoinPrice.js
+[RandomNumber.js]: /requests/RandomNumber.js
+[Weather.js]: /requests/Weather.js
+[PriceFeed.sol]: /contracts/examples/PriceFeed.sol
+[QuantumDice.sol]: /contracts/examples/QuantumDice.sol
+[WeatherContest.sol]: /contracts/examples/WeatherContest.sol
 [WBI]: https://medium.com/witnet/ethereum-loves-witnet-9a3fd21e6f5c
+[random]: https://qrng.anu.edu.au/
