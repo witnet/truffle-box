@@ -7,7 +7,7 @@ contract PriceFeed is UsingWitnet {
   uint8 smoothing;
   int128 public bitcoinPrice;
   bool pending;
-  Request lastRequest;
+  uint256 lastRequestId;
 
   constructor (uint8 _smoothing) public {
     require(_smoothing > 0);
@@ -20,13 +20,13 @@ contract PriceFeed is UsingWitnet {
     require(msg.value >= _witnetReward);
 
     Request request = new BitcoinPriceRequest();
-    witnetPostRequest(request, _witnetReward);
+    lastRequestId = witnetPostRequest(request, _witnetReward);
   }
 
-  function completeUpdate() public payable witnetRequestAccepted(lastRequest.id()) {
+  function completeUpdate() public payable witnetRequestAccepted(lastRequestId) {
     require(pending);
 
-    Result result = witnetReadResult(lastRequest);
+    Witnet.Result memory result = witnetReadResult(lastRequestId);
     if (result.isOk()) {
       bitcoinPrice *= smoothing;
       bitcoinPrice += result.asInt128();

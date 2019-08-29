@@ -23,14 +23,14 @@ contract QuantumDice is UsingWitnet {
     require(msg.value >= _witnetReward);
 
     Request request = new RandomNumberRequest();
-    uint256 rollId = uint256(witnetPostRequest(request, _witnetReward));
+    uint256 rollId = witnetPostRequest(request, _witnetReward);
     rolls[rollId] = Roll(msg.sender, _number, msg.value);
     return rollId;
   }
 
   // If the number is the same as the quantum random number, you get the faces count of the dice times your deposit
   function claimPrize(uint256 _rollId) public {
-    uint64 randomNumber = new Result(witnetReadResult(_rollId)).asUint64();
+    uint64 randomNumber = witnetReadResult(_rollId).asUint64();
     uint64 winningFace = randomNumber % diceFaces;
     Roll memory myRoll = rolls[_rollId];
     if (myRoll.number == winningFace) {
