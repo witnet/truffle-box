@@ -1,7 +1,8 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 import "witnet-ethereum-bridge/contracts/UsingWitnet.sol";
-import "../requests/RandomNumber.sol";
+import "./requests/RandomNumber.sol";
 
 contract QuantumDice is UsingWitnet {
   struct Roll {
@@ -13,7 +14,7 @@ contract QuantumDice is UsingWitnet {
   uint64 diceFaces;
 
   // Set the faces count for the dice
-  constructor (uint64 _diceFaces) public {
+  constructor (address _wbi, uint64 _diceFaces) UsingWitnet(_wbi) public {
     diceFaces = _diceFaces;
   }
 

@@ -1,12 +1,14 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 import "witnet-ethereum-bridge/contracts/UsingWitnet.sol";
-import "../requests/Weather.sol";
+import "./requests/Weather.sol";
 
 
-contract MyContract is UsingWitnet {
+contract WeatherContest is UsingWitnet {
   using SafeMath for uint256;
 
+  address owner;
   uint256 weatherRequestId;
   uint256 grandPrice;
   mapping(int128 => Contestant[]) contestants;
@@ -16,7 +18,14 @@ contract MyContract is UsingWitnet {
     uint256 amount;
   }
 
-  constructor (uint256 _tallyFee) public {
+  constructor (address _wbi) UsingWitnet(_wbi) public {
+    owner = msg.sender;
+  }
+
+  function initialize(uint256 _tallyFee) public payable {
+    require(msg.sender == owner);
+    require(weatherRequestId == 0);
+
     Request weatherRequest = new WeatherRequest();
     weatherRequestId = witnetPostRequest(weatherRequest, _tallyFee);
   }

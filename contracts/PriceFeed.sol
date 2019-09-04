@@ -1,7 +1,8 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 import "witnet-ethereum-bridge/contracts/UsingWitnet.sol";
-import "../requests/BitcoinPrice.sol";
+import "./requests/BitcoinPrice.sol";
 
 contract PriceFeed is UsingWitnet {
   uint8 smoothing;
@@ -9,7 +10,7 @@ contract PriceFeed is UsingWitnet {
   bool pending;
   uint256 lastRequestId;
 
-  constructor (uint8 _smoothing) public {
+  constructor (address _wbi, uint8 _smoothing) UsingWitnet(_wbi) public {
     require(_smoothing > 0);
     smoothing = _smoothing;
     pending = false;
