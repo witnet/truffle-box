@@ -246,7 +246,8 @@ module.exports = function (deployer) {
   deployer.link(Witnet, [${artifacts.join(", ")}])
 ${artifacts.map(artifact => {
     if (artifact in userContractsArgs) {
-      const args = userContractsArgs[artifact].split(/[(,)]/).slice(2).reverse().slice(1).reverse().map(x => x.trim()).join(", ")
+      const args = userContractsArgs[artifact]
+        .split(/[(,)]/).slice(2).reverse().slice(1).reverse().map(x => x.trim()).join(", ")
       console.log(`> ${artifact}: reusing existing constructor arguments (${args})`)
       return userContractsArgs[artifact]
     } else {
@@ -273,7 +274,7 @@ function readMigrationArgs (artifact) {
   fs.closeSync(fs.openSync(`${migrationsDir}3_user_contracts.js`, "a"))
   const content = readFile(`${migrationsDir}3_user_contracts.js`)
   const regex = /^\s*deployer\.deploy\([\s\n]*(\w+)[^)]*\)/mg
-  return [...content.matchAll(regex)].reduce((acc, match) => ({ ...acc, [match[1]]: match[0] }), {})
+  return matchAll(regex, content).reduce((acc, match) => ({ ...acc, [match[1]]: match[0] }), {})
 }
 
 function mockSolidityArgs (args) {
@@ -308,4 +309,14 @@ function mockSolidityArgs (args) {
       return 0;
     }
   })
+}
+
+function matchAll (regex, string) {
+  const matches = []
+  while (true) {
+    const match = regex.exec(string)
+    if (match === null) break
+    matches.push(match)
+  }
+  return matches
 }
