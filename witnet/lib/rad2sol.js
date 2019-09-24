@@ -174,9 +174,9 @@ function pack (dro) {
     return { ...branch, script: CBOR.encode(branch.script) }
   })
   const aggregate = { ...dro.data_request.aggregate, script: CBOR.encode(dro.data_request.aggregate.script) }
-  const consensus = { ...dro.data_request.tally, script: CBOR.encode(dro.data_request.tally.script) }
+  const tally = { ...dro.data_request.tally, script: CBOR.encode(dro.data_request.tally.script) }
 
-  return { ...dro, data_request: { ...dro.data_request, retrieve, aggregate, consensus } }
+  return { ...dro, data_request: { ...dro.data_request, retrieve, aggregate, tally } }
 }
 
 function intoProtoBuf (request) {
