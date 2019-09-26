@@ -2,7 +2,7 @@
   "ignore": [
     "README.md",
 	".gitignore",
-    "witnet/requests/*.sol"
+    "requests/*.js"
   ],
   "commands": {
     "Compile project": "npm run compile / yarn compile",
