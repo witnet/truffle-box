@@ -46,6 +46,7 @@ const steps = [
   compile,
   (code, i) => execute(code, requestNames[i]),
   pack,
+  tap,
   intoProtoBuf,
   buff => buff.toString("hex"),
   (hex, i) => intoSol(hex, requestNames[i]),
