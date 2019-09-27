@@ -24,10 +24,10 @@
   "dependencies": {
     "cbor": "^4.3.0",
     "openzeppelin-solidity": "^2.3.0",
+    "truffle-box": "git+https://github.com/witnet/truffle-box.git#master",
     "truffle-plugin-verify": "^0.3.3",
     "witnet-ethereum-bridge": "git+https://github.com/aesedepece/witnet-ethereum-bridge.git#request-result",
-    "witnet-requests": "git+https://github.com/witnet/witnet-requests-js.git#master",
-    "truffle-box": "git+https://github.com/witnet/truffle-box.git#master"
+    "witnet-requests": "git+https://github.com/witnet/witnet-requests-js.git#master"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

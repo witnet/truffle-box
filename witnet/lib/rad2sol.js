@@ -133,7 +133,11 @@ function execute (code, requestName) {
   })
 
   try {
-    return vm.runInContext(code, context, __dirname).asJson()
+    const request = vm.runInContext(code, context, __dirname)
+    console.log(`  - The final type of the sources is ${witnetRequests.Types.typeFormat(request.lastTypes.retrieve)}`)
+    console.log(`  - The final type of the aggregator is ${witnetRequests.Types.typeFormat(request.lastTypes.aggregate)}`)
+    console.log(`  - The final type of the tally is ${witnetRequests.Types.typeFormat(request.lastTypes.tally)}`)
+    return request.asJson()
   } catch (e) {
     let error = e
     if (e.message.includes("is not a function")) {
