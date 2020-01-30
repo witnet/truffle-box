@@ -23,7 +23,7 @@
     "lint": "eslint ./test",
     "lint:fix": "eslint ./test --fix",
     "migrate": "npx truffle migrate",
-    "migrate-flattened": "npm run flatten && npm run compile-flattened && npx truffle migrate --config flattened-config.js",
+    "migrate-flattened": "npm run flatten && npx truffle migrate --config flattened-config.js",
     "verify-flattened": "npx truffle run verify"
   },
   "dependencies": {
