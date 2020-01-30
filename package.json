@@ -15,7 +15,7 @@
     "compile-contracts": "npx truffle compile",
     "compile-flattened": "npx truffle compile --all --config flattened-config.js ",
     "coverage": "solidity-coverage",
-    "flatten": "npx truffle-flattener contracts/*.sol > contracts/flattened/Flattened.sol",
+    "flatten": " mkdir contracts/flattened/ 2>/dev/null; npx truffle-flattener contracts/*.sol > contracts/flattened/Flattened.sol",
     "fmt": "solium -d contracts && eslint ./test",
     "fmt!": "solium -d contracts --fix && eslint ./test --fix",
     "solium": "solium -d contracts",
