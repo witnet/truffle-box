@@ -34,29 +34,31 @@ module.exports = {
       provider: require("ganache-cli").provider({ gasLimit: 100000000 }),
       network_id: "*",
     },
+    mainnet: {
+      network_id: 1,
+      host: "localhost",
+      port: 8541,
+    },
     rinkeby: {
       network_id: 4,
       host: "localhost",
-      port: 9004,
-      gas: 6500000,
+      port: 8544,
     },
     ropsten: {
       network_id: 3,
       host: "localhost",
-      port: 9005,
-      gas: 6500000,
+      port: 8545,
     },
     goerli: {
       network_id: 5,
       host: "localhost",
-      port: 9006,
-      gas: 6500000,
+      port: 8546,
     },
   },
 
   // The `solc` compiler is set to optimize output bytecode with 200 runs, which is the standard these days
   compilers: {
-    solc: { optimizer: { enabled: true, runs: 200 } },
+    solc: { settings: { optimizer: { enabled: true, runs: 200 } } },
   },
 
   // This plugin allows to verify the source code of your contracts on Etherscan with this command:
