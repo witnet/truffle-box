@@ -24,14 +24,14 @@
     "lint:fix": "eslint ./test --fix",
     "migrate": "npx truffle migrate",
     "migrate-flattened": "npm run flatten && npx truffle migrate --config flattened-config.js",
-    "postinstall": "mkdir -p build/contracts >/dev/null 2>1; cp node_modules/witnet-ethereum-bridge/build/contracts/MockWitnetBridgeInterface.json build/contracts",
+    "postinstall": "mkdir -p build/contracts >/dev/null 2>1; cp node_modules/witnet-ethereum-bridge/build/contracts/MockWitnetRequestsBoard.json build/contracts",
     "verify-flattened": "npx truffle run verify"
   },
   "dependencies": {
     "openzeppelin-solidity": "^2.4.0",
     "witnet-ethereum-bridge": "git+https://github.com/witnet/witnet-ethereum-bridge",
     "witnet-requests": "git+https://github.com/witnet/witnet-requests-js"
- },
+  },
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
