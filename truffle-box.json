@@ -1,7 +1,6 @@
 {
   "ignore": [
     "README.md",
-	".gitignore",
     "requests/*.js"
   ],
   "commands": {
