@@ -15,7 +15,7 @@
     "compile-contracts": "npx truffle compile",
     "compile-flattened": "npx truffle compile --all --config flattened-config.js ",
     "coverage": "solidity-coverage",
-    "flatten": "node utils/flatten.js",
+    "flatten": "node scripts/flatten.js",
     "fmt": "solium -d contracts && eslint ./test",
     "fmt!": "solium -d contracts --fix && eslint ./test --fix",
     "solium": "solium -d contracts",
@@ -24,7 +24,7 @@
     "lint:fix": "eslint ./test --fix",
     "migrate": "npx truffle migrate",
     "migrate-flattened": "npm run flatten && npx truffle migrate --config flattened-config.js",
-    "postinstall": "node utils/postinstall.js",
+    "postinstall": "node scripts/postinstall.js",
     "verify-flattened": "npx truffle run verify"
   },
   "dependencies": {
