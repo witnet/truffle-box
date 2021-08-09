@@ -1,6 +1,6 @@
 {
   "name": "witnet-truffle-box",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A truffle box enabling Solidity contracts to query the Witnet Decentralized Oracle Network",
   "main": "witnet/lib/index.js",
   "repository": "https://github.com/witnet/truffle-box",
@@ -10,27 +10,29 @@
   "scripts": {
     "test": "npx truffle test",
     "console": "npx truffle console",
-    "compile": "npm run compile-requests && npm run compile-contracts",
-    "compile-requests": "npx rad2sol",
-    "compile-contracts": "npx truffle compile",
-    "compile-flattened": "npx truffle compile --all --config flattened-config.js ",
+    "compile": "npm run compile:requests && npm run compile:contracts",
+    "compile:requests": "npx rad2sol --disable-requests-lists",
+    "compile:contracts": "npx truffle compile",
+    "compile:flattened": "npx truffle compile --all --config flattened-config.js ",
     "coverage": "solidity-coverage",
     "flatten": "node scripts/flatten.js",
     "fmt": "solium -d contracts && eslint ./test",
     "fmt!": "solium -d contracts --fix && eslint ./test --fix",
-    "solium": "solium -d contracts",
-    "solium:fix": "solium -d contracts --fix",
     "lint": "eslint ./test",
     "lint:fix": "eslint ./test --fix",
     "migrate": "npx truffle migrate",
-    "migrate-flattened": "npm run flatten && npx truffle migrate --config flattened-config.js",
+    "migrate:flattened": "npm run flatten && npx truffle migrate --config flattened-config.js",
     "postinstall": "node scripts/postinstall.js",
-    "verify-flattened": "npx truffle run verify"
+    "solium": "solium -d contracts",
+    "solium:fix": "solium -d contracts --fix",
+    "toolkit": "npx witnet-toolkit",
+    "try": "npm run compile:requests && npx witnet-toolkit try-data-request --from-solidity ./contracts/requests/",
+    "verify:flattened": "npx truffle run verify"
   },
   "dependencies": {
     "openzeppelin-solidity": "^2.4.0",
-    "witnet-ethereum-bridge": "https://github.com/witnet/witnet-ethereum-bridge",
-    "witnet-requests": "https://github.com/witnet/witnet-requests-js"
+    "witnet-ethereum-bridge": "^0.2.0",
+    "witnet-requests": "^0.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
