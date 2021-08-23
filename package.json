@@ -50,6 +50,7 @@
     "ethlint": "^1.2.5",
     "ganache-cli": "^6.8.2",
     "node-eval": "^2.0.0",
+    "npx": "^10.2.2",
     "protocol-buffers": "^4.1.0",
     "solidity-coverage": "^0.5.11",
     "truffle": "^5.1.10",
