@@ -1,6 +1,6 @@
 {
   "name": "witnet-truffle-box",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A truffle box enabling Solidity contracts to query the Witnet Decentralized Oracle Network",
   "main": "witnet/lib/index.js",
   "repository": "https://github.com/witnet/truffle-box",
