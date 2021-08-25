@@ -18,6 +18,56 @@
  *
  */
 
+const witnetSettings = require("./node_modules/witnet-ethereum-bridge/migrations/witnet.settings")
+const realm = process.env.WITNET_EVM_REALM ? process.env.WITNET_EVM_REALM.toLowerCase() : "default"
+const compilers = witnetSettings.compilers[realm]
+const supportedNetworks = Object.entries(witnetSettings.networks).reduce((acc, [realmKey, realmVal]) => {
+  let realmEmit
+  if (realmKey === "default") {
+    realmEmit = realmVal
+  } else {
+    realmEmit = Object.entries(realmVal).reduce((acc, [netKey, netVal]) => {
+      let netEmit
+      if (netKey.includes(realmKey)) {
+        netEmit = { [netKey]: netVal }
+      } else {
+        netEmit = { [`${realmKey}.${netKey}`]: netVal }
+      }
+      return { ...acc, ...netEmit }
+    }, {})
+  }
+  return { ...acc, ...realmEmit }
+}, 0)
+
+/**
+ * Feel free to add here your own Truffle networks configuration.
+ *
+ * This Truffle Box comes with a series of preconfigured networks, under the assumption that suitable Web3 providers
+ * are locally available on different ports at localhost:XXXX.
+ *
+ * For example:
+ * - ethereum.mainnet → localhost:9545
+ * - ethereum.kovan → localhost:8542
+ * - ethereum.ropsten → localhost:8543
+ * - ethereum.rinkeby → localhost:8544
+ * - ethereum.goerli → localhost:8545
+ * - conflux.testnet → localhost:8540
+ * - conflux.tethys → localhost:9540
+ * - boba.rinkeby → localhost:8539
+ *
+ * For example, if you want to deploy to Ethereum mainnet, you will need an Ethereum mainnet node, an account-enabled
+ * Web3 gateway or an instance of ` @truffle/hdwallet-provider` running on localhost:9545.
+ *
+ * If you don't want to mess with any ot that, and prefer to configure an HDWalletProvider in the classic way, simply
+ * add your own configuration down below, inside the `manualNetworks` object.
+ */
+const manualNetworks = {
+  development: {
+    provider: require("ganache-cli").provider({ gasLimit: 100000000 }),
+    network_id: "*",
+  },
+}
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -30,38 +80,12 @@ module.exports = {
    */
 
   networks: {
-    development: {
-      provider: require("ganache-cli").provider({ gasLimit: 100000000 }),
-      network_id: "*",
-    },
-    mainnet: {
-      network_id: 1,
-      host: "localhost",
-      port: 8541,
-    },
-    rinkeby: {
-      network_id: 4,
-      host: "localhost",
-      port: 8544,
-    },
-    ropsten: {
-      network_id: 3,
-      host: "localhost",
-      port: 8545,
-    },
-    goerli: {
-      network_id: 5,
-      host: "localhost",
-      port: 8546,
-    },
+    ...supportedNetworks,
+    ...manualNetworks,
   },
 
   // The `solc` compiler is set to optimize output bytecode with 200 runs, which is the standard these days
-  compilers: {
-    solc: {
-      version: "0.8.4",
-      settings: { optimizer: { enabled: true, runs: 200 } } },
-  },
+  compilers,
 
   // This plugin allows to verify the source code of your contracts on Etherscan with this command:
   // ETHERSCAN_API_KEY=<your_etherscan_api_key> truffle run verify <contract_name> --network <network_name>
