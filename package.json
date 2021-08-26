@@ -10,7 +10,7 @@
   "scripts": {
     "test": "npx truffle test",
     "console": "npx truffle console",
-    "clean": "rm contracts/requests/*.sol migrations/*_witnet_core.js migrations/*user_contracts.js migrations/*.json build/contracts/*; npm run postinstall",
+    "clean": "node scripts/clean.js && npm run postinstall",
     "compile": "npm run compile:requests && npm run compile:contracts",
     "compile:requests": "npx rad2sol --disable-requests-lists",
     "compile:contracts": "npx truffle compile",
