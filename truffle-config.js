@@ -18,27 +18,6 @@
  *
  */
 
-const witnetSettings = require("./node_modules/witnet-ethereum-bridge/migrations/witnet.settings")
-const realm = process.env.WITNET_EVM_REALM ? process.env.WITNET_EVM_REALM.toLowerCase() : "default"
-const compilers = { ...witnetSettings.compilers.default, ...witnetSettings.compilers[realm] }
-const supportedNetworks = Object.entries(witnetSettings.networks).reduce((acc, [realmKey, realmVal]) => {
-  let realmEmit
-  if (realmKey === "default") {
-    realmEmit = realmVal
-  } else {
-    realmEmit = Object.entries(realmVal).reduce((acc, [netKey, netVal]) => {
-      let netEmit
-      if (netKey.includes(realmKey)) {
-        netEmit = { [netKey]: netVal }
-      } else {
-        netEmit = { [`${realmKey}.${netKey}`]: netVal }
-      }
-      return { ...acc, ...netEmit }
-    }, {})
-  }
-  return { ...acc, ...realmEmit }
-}, 0)
-
 /**
  * Feel free to add here your own Truffle networks configuration.
  *
@@ -68,6 +47,52 @@ const manualNetworks = {
   },
 }
 
+/**
+ * You shouldn't change anything below this line to preserve this Truffle Box's automatic handling of target realms,
+ * chains, networks, compiler versions, etc.
+ *
+ * If you want to configure anything related to networks, please customize the `manualNetworks` object above.
+ *
+ * Target realms (ethereum / boba / celo / conflux / etc.) are read from multiple possible sources, in this order:
+ *  1. `--network <realm>.<chain>` argument
+ *  2. `WITNET_EVM_REALM` environment variable
+ *  3. default (ethereum)
+ */
+const witnetSettings = require("./node_modules/witnet-ethereum-bridge/migrations/witnet.settings")
+let realm = process.env.WITNET_EVM_REALM ? process.env.WITNET_EVM_REALM.toLowerCase() : "default"
+const args = process.argv.join("=").split("=")
+const networkIndex = args.indexOf("--network")
+if (networkIndex >= 0) {
+  realm = (args[networkIndex + 1] || "default").split(".")[0]
+}
+console.info(`Configuring "${realm}" target realm...
+==============================${"=".repeat(realm.length)}
+> Default realm is "ethereum"
+> Target realms and chains can be specified with "--network <realm>.<chain>"
+> Available realms and chains can be found in "migrations/1_witnet_core.js"`)
+
+// Use realm-specific compiler settings
+const compilers = { ...witnetSettings.compilers.default, ...witnetSettings.compilers[realm] }
+
+// Make sure that all configured networks are prefixed with a valid realm
+const supportedNetworks = Object.entries(witnetSettings.networks).reduce((acc, [realmKey, realmVal]) => {
+  let realmEmit
+  if (realmKey === "default") {
+    realmEmit = realmVal
+  } else {
+    realmEmit = Object.entries(realmVal).reduce((acc, [netKey, netVal]) => {
+      let netEmit
+      if (netKey.includes(realmKey)) {
+        netEmit = { [netKey]: netVal }
+      } else {
+        netEmit = { [`${realmKey}.${netKey}`]: netVal }
+      }
+      return { ...acc, ...netEmit }
+    }, {})
+  }
+  return { ...acc, ...realmEmit }
+}, 0)
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -78,7 +103,6 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-
   networks: {
     ...supportedNetworks,
     ...manualNetworks,
