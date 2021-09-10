@@ -20,7 +20,7 @@
 
 const witnetSettings = require("./node_modules/witnet-ethereum-bridge/migrations/witnet.settings")
 const realm = process.env.WITNET_EVM_REALM ? process.env.WITNET_EVM_REALM.toLowerCase() : "default"
-const compilers = witnetSettings.compilers[realm]
+const compilers = { ...witnetSettings.compilers.default, ...witnetSettings.compilers[realm] }
 const supportedNetworks = Object.entries(witnetSettings.networks).reduce((acc, [realmKey, realmVal]) => {
   let realmEmit
   if (realmKey === "default") {
