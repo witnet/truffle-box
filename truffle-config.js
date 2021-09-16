@@ -113,9 +113,7 @@ module.exports = {
 
   // This plugin allows to verify the source code of your contracts on Etherscan with this command:
   // ETHERSCAN_API_KEY=<your_etherscan_api_key> truffle run verify <contract_name> --network <network_name>
-  plugins: [
-    "truffle-plugin-verify",
-  ],
+  plugins: [],
 
   // This is just for the `truffle-plugin-verify` to catch the API key
   api_keys: {
