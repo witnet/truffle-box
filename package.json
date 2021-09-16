@@ -4,7 +4,7 @@
   "description": "A truffle box enabling Solidity contracts to query the Witnet Decentralized Oracle Network",
   "main": "witnet/lib/index.js",
   "repository": "https://github.com/witnet/truffle-box",
-  "author": "Adán SDPC <adan@witnet.foundation>",
+  "author": "Witnet Devs <devs@witnet.io>",
   "license": "MIT",
   "private": false,
   "scripts": {
