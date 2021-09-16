@@ -5,8 +5,11 @@
   ],
   "commands": {
     "Compile project": "npm run compile / yarn compile",
-    "Migrate / deploy": "npm run migrate / yarn migrate",
-    "Run tests": "npm test / yarn test"
+    "Compile data requests": "npm run compile:requests / yarn compile:requests",
+    "Compile contracts": "npm run compile:contracts / yarn compile:contracts",
+    "Dry run data requests": "npm run try / yarn try",
+    "Run tests": "npm test / yarn test",
+    "Migrate / deploy": "npm run migrate / yarn migrate"
   },
   "hooks": {
     "post-unpack": "npm install"
