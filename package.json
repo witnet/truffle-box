@@ -14,7 +14,7 @@
     "compile": "npm run compile:requests && npm run compile:contracts",
     "compile:requests": "npx rad2sol --disable-requests-lists",
     "compile:contracts": "npx truffle compile",
-    "compile:flattened": "npx truffle compile --all --config flattened-config.js ",
+    "compile:flattened": "npx truffle compile --all --config truffle-config-flattened",
     "coverage": "solidity-coverage",
     "flatten": "node scripts/flatten.js",
     "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && solhint \"test/**/*.sol\" --fix && eslint ./scripts/*.js --fix && eslint \"test/**/*.js\" --no-error-on-unmatched-pattern --fix",
@@ -22,7 +22,7 @@
     "lint": "eslint ./test",
     "lint:fix": "eslint ./test --fix",
     "migrate": "npx truffle migrate",
-    "migrate:flattened": "npm run flatten && npx truffle migrate --config flattened-config.js",
+    "migrate:flattened": "npm run flatten && npx truffle migrate --config truffle-config-flattened.js",
     "postinstall": "node scripts/postinstall.js",
     "toolkit": "npx witnet-toolkit",
     "try": "npm run compile:requests && npx witnet-toolkit try-data-request --from-solidity ./contracts/requests/"
