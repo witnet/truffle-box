@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "clean": "npm run clean:build && npm rum clean:flattened",
-    "clean:build": "node ./scripts/clean.js build/ && npm run postinstall",
+    "clean:build": "node ./scripts/clean.js build/",
     "clean:flattened": "node ./scripts/clean.js flattened/",
     "compile": "npm run compile:requests && npm run compile:contracts",
     "compile:contracts": "npx truffle compile",
@@ -21,7 +21,6 @@
     "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && solhint \"test/**/*.sol\" && eslint ./scripts/*.js && eslint \"test/**/*.js\" --no-error-on-unmatched-pattern",
     "migrate": "npm run clean && npx truffle migrate",
     "migrate:flattened": "npm run clean:flattened && npm run flatten && npx truffle migrate --config truffle-config-flattened.js",
-    "postinstall": "node scripts/postinstall.js",
     "test": "npx truffle test",
     "toolkit": "npx witnet-toolkit",
     "try": "npm run compile:requests && npx witnet-toolkit try-data-request --from-solidity ./contracts/requests/"
